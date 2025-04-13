@@ -1,19 +1,1 @@
-# Android Studio/IntelliJ IDEA generált fájlok
-.idea/
-*.iml
-
-# Build mappák
 /build
-app/build
-
-# Firebase konfigurációs fájl
-google-services.json
-
-# Helyi konfigurációs fájlok
-local.properties
-app/secrets.properties
-
-# Gyorsítótárak és naplófájlok
-caches/
-*.log
-*.tmp

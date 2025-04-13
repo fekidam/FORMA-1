@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "231208139523",
+    "project_id": "forma-1-90510",
+    "storage_bucket": "forma-1-90510.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231208139523:android:1601343382d62857588736",
+        "android_client_info": {
+          "package_name": "com.example.forma_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231208139523-v5ibnikghv31m8pucrhomj8g7toajn9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.forma_1",
+            "certificate_hash": "05e7622f09267f507ec05a8a1457b6288ae2296b"
+          }
+        },
+        {
+          "client_id": "231208139523-qgblks8q6om06b724s07mfo5njnvekeq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDvtfmanqx8Ed11ye3oPP-XzzVIlIqdMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231208139523-qgblks8q6om06b724s07mfo5njnvekeq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
