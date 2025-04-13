@@ -9,4 +9,80 @@
     <string name="email_address">E-mail cím</string>
     <string name="confirm_password">Jelszó megerősítése</string>
     <string name="cancel">MÉGSE</string>
+    <string name="phone_number">Telefonszám</string>
+    <string name="address">Cím</string>
+    <string name="fan">Szurkoló</string>
+    <string name="blogger">Blogger</string>
+    <string name="car_description">Autó leírás</string>
+    <string name="guest_login">BEJELENTKEZÉS VENDÉGKÉNT</string>
+    <string name="google_login">BEJELENTKEZÉS GOOGLE FIÓKKAL</string>
+    <string name="ferrari">Ferrari</string>
+    <string name="leclerc">Versenyző: Charles Leclerc</string>
+    <string name="profile">Profil</string>
+    <string name="sign_out">Kijelentkezés</string>
+    <string name="driver_image">Driver Image</string>
+    <string name="lando_norris">Lando Norris</string>
+    <string name="team">Team:</string>
+    <string name="mclaren">McLaren</string>
+    <string name="country">Country:</string>
+    <string name="united_kingdom">United Kingdom</string>
+    <string name="podiums">Podiums:</string>
+    <string name="_29">29</string>
+    <string name="points">Points:</string>
+    <string name="_1069">1069</string>
+    <string name="grands_prix_entered">Grands Prix entered:</string>
+    <string name="_131">131</string>
+    <string name="world_championships">World Championships:</string>
+    <string name="_0">0</string>
+    <string name="highest_race_finish">Highest race finish:</string>
+    <string name="_1_x5">1 (x5)</string>
+    <string name="highest_grid_position">Highest grid position:</string>
+    <string name="_1">1</string>
+    <string name="date_of_birth">Date of birth:</string>
+    <string name="_13_11_1999">13/11/1999</string>
+    <string name="place_of_birth">Place of birth:</string>
+    <string name="bristol_england">Bristol, England</string>
+    <string name="nev">Név:</string>
+    <string name="nincs_nev_megadva">Nincs név megadva</string>
+    <string name="email">Email:</string>
+    <string name="example_email_com">example@email.com</string>
+    <string name="regisztracio_datuma">Regisztráció dátuma:</string>
+    <string name="_2025_04_10">2025.04.10</string>
+    <string name="kedvenc_csapat">Kedvenc csapat:</string>
+    <string name="vissza">Vissza</string>
+    <string name="fiok_tipusa">Fiók tipusa</string>
+    <string name="charles_leclerc">Charles Leclerc</string>
+    <string name="monaco">Monaco</string>
+    <string name="telefonszam">Telefonszám</string>
+    <string name="nincs_telefonszam">Nincs telefonszám</string>
+    <string name="cim">Cím</string>
+    <string name="nincs_cim">Nincs cím</string>
+    <string name="nincs_fioktipus">Nincs fióktípus</string>
+    <string name="udvozoljuk">Üdvözöljük!</string>
+    <string name="szerkesztes">Szerkesztés</string>
+    <string name="mentes">Mentés</string>
+    <string-array name="phone_modes">
+        <item>Otthoni</item>
+        <item>Munkahelyi</item>
+        <item>Mobil</item>
+        <item>Egyéb</item>
+    </string-array>
+    <string-array name="f1_teams">
+        <item>Válassz csapatot</item>
+        <item>Mercedes</item>
+        <item>Ferrari</item>
+        <item>McLaren</item>
+        <item>Red Bull</item>
+        <item>Aston Martin</item>
+        <item>Alpine</item>
+        <item>Williams</item>
+        <item>Kick Sauber</item>
+        <item>Haas</item>
+        <item>Racing Bulls</item>
+    </string-array>
+    <string-array name="account_types">
+        <item>Szurkoló</item>
+        <item>Blogger</item>
+        <item>Vendég</item>
+    </string-array>
 </resources>
