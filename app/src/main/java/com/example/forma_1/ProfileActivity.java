@@ -1,5 +1,6 @@
 package com.example.forma_1;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView nameText, emailText, phoneText, addressText, accountTypeText, registrationDateText;
     private EditText nameEditText, emailEditText, phoneEditText, addressEditText;
     private Spinner accountTypeSpinner;
-    private Button editButton, saveButton, cancelButton, backButton;
+    private Button editButton, saveButton, cancelButton, backButton, deleteButton;
 
     private boolean isEditing = false;
     private String originalName, originalEmail, originalPhoneNumber, originalPhoneType, originalAddress, originalAccountType;
@@ -80,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
             saveButton = findViewById(R.id.saveButton);
             cancelButton = findViewById(R.id.cancelButton);
             backButton = findViewById(R.id.backButton);
+            deleteButton = findViewById(R.id.deleteButton);
 
             loadUserData(user.getUid());
 
@@ -127,8 +130,44 @@ public class ProfileActivity extends AppCompatActivity {
         saveButton.setOnClickListener(v -> saveChanges());
         cancelButton.setOnClickListener(v -> toggleEditMode(false));
         backButton.setOnClickListener(v -> finish());
+        deleteButton.setOnClickListener(v -> deleteAccount());
 
         toggleEditMode(false);
+
+        // Komplex Firestore lekérdezések
+        // 1. Rendezés pontszám szerint, limit 5
+        db.collection("drivers")
+                .orderBy("points", Query.Direction.DESCENDING)
+                .limit(5)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        Log.d(LOG_TAG, "Top driver: " + document.getString("name") + ", points: " + document.getLong("points"));
+                    }
+                })
+                .addOnFailureListener(e -> Log.w(LOG_TAG, "Error getting top drivers", e));
+
+        // 2. Where feltétel: McLaren versenyzők
+        db.collection("drivers")
+                .whereEqualTo("team", "McLaren")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        Log.d(LOG_TAG, "McLaren driver: " + document.getString("name"));
+                    }
+                })
+                .addOnFailureListener(e -> Log.w(LOG_TAG, "Error getting McLaren drivers", e));
+
+        // 3. Rendezés név szerint
+        db.collection("drivers")
+                .orderBy("name")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        Log.d(LOG_TAG, "Driver by name: " + document.getString("name"));
+                    }
+                })
+                .addOnFailureListener(e -> Log.w(LOG_TAG, "Error getting drivers by name", e));
     }
 
     private void loadUserData(String userId) {
@@ -229,6 +268,28 @@ public class ProfileActivity extends AppCompatActivity {
                             .build())
                     .addOnSuccessListener(aVoid -> Log.d(LOG_TAG, "Display name updated: " + newName))
                     .addOnFailureListener(e -> Toast.makeText(ProfileActivity.this, "Név frissítési hiba: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        }
+    }
+
+    private void deleteAccount() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            db.collection("users").document(user.getUid())
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        user.delete()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(ProfileActivity.this, "Fiók törölve!", Toast.LENGTH_SHORT).show();
+                                        SharedPreferences.Editor editor = preferences.edit();
+                                        editor.clear();
+                                        editor.apply();
+                                        startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                                        finish();
+                                    }
+                                });
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(ProfileActivity.this, "Hiba a fiók törlése során: " + e.getMessage(), Toast.LENGTH_LONG).show());
         }
     }
 }

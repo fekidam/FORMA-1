@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -33,23 +34,36 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.example.forma_1.BuildConfig;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.content.ContextCompat;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getName();
     private static final String PREF_KEY = MainActivity.class.getPackage().toString();
     private static final int SECRET_KEY = 99;
+    private static final String CHANNEL_ID = "login_channel";
 
     EditText userNameET;
     EditText passwordET;
     private boolean isPasswordVisible = false;
+    private ProgressBar progressBar;
 
     private SharedPreferences preferences;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseFirestore db;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +83,14 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseAuth.getInstance().signOut();
         if (mGoogleSignInClient != null) {
-            mGoogleSignInClient.signOut();  // Google SignOut is
+            mGoogleSignInClient.signOut();
         }
 
         userNameET = findViewById(R.id.editTextUserName);
         passwordET = findViewById(R.id.editTextPassword);
+        progressBar = findViewById(R.id.progressBar); // Hozzá kell adni a layout-hoz
+        progressBar.setVisibility(View.GONE);
+
         passwordET.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0);
         passwordET.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -95,9 +112,22 @@ public class MainActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         rootView.startAnimation(animation);
 
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                Log.d(LOG_TAG, "POST_NOTIFICATIONS permission granted");
+            } else {
+                Toast.makeText(this, "Értesítési jogosultság megtagadva!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+
         Log.i(LOG_TAG, "onCreate");
     }
-
 
     private void togglePasswordVisibility(EditText editText) {
         if (isPasswordVisible) {
@@ -116,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
         String userName = userNameET.getText().toString();
         String password = passwordET.getText().toString();
 
+        progressBar.setVisibility(View.VISIBLE); // Betöltés indítása
+
         mAuth.signInWithEmailAndPassword(userName, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -124,8 +156,10 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     if (user != null) {
                         loadUserData(user.getUid());
+                        showLoginNotification(user.getDisplayName());
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE); // Betöltés leállítása hiba esetén
                     Log.d(LOG_TAG, "User login fail");
                     Toast.makeText(MainActivity.this, "User login fail: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -154,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
     );
 
     public void LoginWithGoogle(View view) {
+        progressBar.setVisibility(View.VISIBLE); // Betöltés indítása
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             Log.d(LOG_TAG, "Google Sign-Out successful before sign-in");
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -189,7 +224,9 @@ public class MainActivity extends AppCompatActivity {
                                                     .addOnFailureListener(e -> Log.w(LOG_TAG, "Error writing Google user data", e));
                                         }
                                         loadUserData(user.getUid());
+                                        showLoginNotification(user.getDisplayName());
                                     } else {
+                                        progressBar.setVisibility(View.GONE); // Betöltés leállítása hiba esetén
                                         Log.w(LOG_TAG, "Error checking Google user data in Firestore", task1.getException());
                                         Toast.makeText(MainActivity.this, "Hiba a Firestore lekérdezés során: " + task1.getException().getMessage(), Toast.LENGTH_LONG).show();
                                         startReading();
@@ -197,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
                                 });
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE); // Betöltés leállítása hiba esetén
                     Log.w(LOG_TAG, "signInWithGoogleCredential:failure", task.getException());
                     Toast.makeText(MainActivity.this, "Google sign in failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -205,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loginAsGuest(View view) {
+        progressBar.setVisibility(View.VISIBLE); // Betöltés indítása
         mAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -225,14 +264,17 @@ public class MainActivity extends AppCompatActivity {
                                 .addOnSuccessListener(aVoid -> {
                                     Log.d(LOG_TAG, "Guest user data written to Firestore");
                                     loadUserData(user.getUid());
+                                    showLoginNotification("Vendég");
                                 })
                                 .addOnFailureListener(e -> {
+                                    progressBar.setVisibility(View.GONE); // Betöltés leállítása hiba esetén
                                     Log.w(LOG_TAG, "Error writing guest user data to Firestore", e);
                                     Toast.makeText(MainActivity.this, "Hiba a Firestore mentés során: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                     startReading();
                                 });
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE); // Betöltés leállítása hiba esetén
                     Log.d(LOG_TAG, "Anonym user login fail");
                     Toast.makeText(MainActivity.this, "User login fail: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -241,6 +283,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadUserData(String userId) {
+        // Gyorsítótárazott adatok ellenőrzése
+        String cachedUserName = preferences.getString("cachedUserName", null);
+        if (cachedUserName != null) {
+            startReadingWithData(cachedUserName, preferences.getString("cachedEmail", ""), preferences.getString("cachedPhoneNumber", ""),
+                    preferences.getString("cachedPhoneType", ""), preferences.getString("cachedAddress", ""), preferences.getString("cachedAccountType", ""));
+            return;
+        }
+
         db.collection("users").document(userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -253,29 +303,26 @@ public class MainActivity extends AppCompatActivity {
                             String address = document.getString("address");
                             String accountType = document.getString("accountType");
 
-                            Log.d(LOG_TAG, "User data loaded: " +
-                                    "userName=" + userName +
-                                    ", email=" + email +
-                                    ", phoneNumber=" + phoneNumber +
-                                    ", phoneType=" + phoneType +
-                                    ", address=" + address +
-                                    ", accountType=" + accountType);
+                            // Adatok mentése gyorsítótárba
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("cachedUserName", userName);
+                            editor.putString("cachedEmail", email);
+                            editor.putString("cachedPhoneNumber", phoneNumber);
+                            editor.putString("cachedPhoneType", phoneType);
+                            editor.putString("cachedAddress", address);
+                            editor.putString("cachedAccountType", accountType);
+                            editor.apply();
 
-                            Intent intent = new Intent(MainActivity.this, Forma1ListActivity.class);
-                            intent.putExtra("userName", userName);
-                            intent.putExtra("email", email);
-                            intent.putExtra("phoneNumber", phoneNumber);
-                            intent.putExtra("phoneType", phoneType);
-                            intent.putExtra("address", address);
-                            intent.putExtra("accountType", accountType);
-                            startActivity(intent);
-                            finish();
+                            Log.d(LOG_TAG, "User data loaded: userName=" + userName + ", email=" + email);
+                            startReadingWithData(userName, email, phoneNumber, phoneType, address, accountType);
                         } else {
+                            progressBar.setVisibility(View.GONE); // Betöltés leállítása
                             Log.d(LOG_TAG, "No such document in Firestore");
                             Toast.makeText(MainActivity.this, "Felhasználói adatok nem találhatók!", Toast.LENGTH_LONG).show();
                             startReading();
                         }
                     } else {
+                        progressBar.setVisibility(View.GONE); // Betöltés leállítása
                         Log.w(LOG_TAG, "Error loading user data from Firestore", task.getException());
                         Toast.makeText(MainActivity.this, "Hiba a Firestore lekérdezés során: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         startReading();
@@ -283,9 +330,23 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void startReadingWithData(String userName, String email, String phoneNumber, String phoneType, String address, String accountType) {
+        Intent intent = new Intent(MainActivity.this, Forma1ListActivity.class);
+        intent.putExtra("userName", userName);
+        intent.putExtra("email", email);
+        intent.putExtra("phoneNumber", phoneNumber);
+        intent.putExtra("phoneType", phoneType);
+        intent.putExtra("address", address);
+        intent.putExtra("accountType", accountType);
+        startActivity(intent);
+        progressBar.setVisibility(View.GONE); // Betöltés leállítása
+        finish();
+    }
+
     private void startReading() {
         Intent intent = new Intent(this, Forma1ListActivity.class);
         startActivity(intent);
+        progressBar.setVisibility(View.GONE); // Betöltés leállítása
         finish();
     }
 
@@ -299,6 +360,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.i(LOG_TAG, "onStart");
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            loadUserData(currentUser.getUid());
+        }
     }
 
     @Override
@@ -333,11 +398,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i(LOG_TAG, "onResume");
-
         if (mAuth == null) {
             mAuth = FirebaseAuth.getInstance();
         }
-
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null && mGoogleSignInClient != null) {
             mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
@@ -352,5 +415,41 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         Log.i(LOG_TAG, "onRestart");
+    }
+
+    private void showLoginNotification(String userName) {
+        createNotificationChannel();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Értesítési jogosultság hiányzik!", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Sikeres bejelentkezés")
+                .setContentText("Üdvözöljük, " + userName + "!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        try {
+            notificationManager.notify(1, builder.build());
+        } catch (SecurityException e) {
+            Toast.makeText(this, "Értesítés megjelenítése nem sikerült: jogosultság hiányzik!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Login Notifications";
+            String description = "Értesítések a bejelentkezésről";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

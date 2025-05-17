@@ -293,6 +293,15 @@
                 android:layout_marginBottom="12dp" />
 
             <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_account"
+                android:backgroundTint="@color/red"
+                android:textColor="@color/white"
+                android:layout_marginBottom="12dp" />
+
+            <Button
                 android:id="@+id/backButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

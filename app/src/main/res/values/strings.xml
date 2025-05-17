@@ -61,6 +61,8 @@
     <string name="udvozoljuk">Üdvözöljük!</string>
     <string name="szerkesztes">Szerkesztés</string>
     <string name="mentes">Mentés</string>
+    <string name="delete_account">Fiók Törlése</string>
+    <string name="kamera">Kamera</string>
     <string-array name="phone_modes">
         <item>Otthoni</item>
         <item>Munkahelyi</item>

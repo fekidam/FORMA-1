@@ -1,10 +1,19 @@
 package com.example.forma_1;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +27,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Forma1ListActivity extends AppCompatActivity {
@@ -30,6 +43,8 @@ public class Forma1ListActivity extends AppCompatActivity {
     private DriverAdapter adapter;
     private GoogleSignInClient mGoogleSignInClient;
     private SharedPreferences preferences;
+    private FirebaseFirestore db;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +55,7 @@ public class Forma1ListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         preferences = getSharedPreferences(PREF_KEY, MODE_PRIVATE);
+        db = FirebaseFirestore.getInstance();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -57,58 +73,22 @@ public class Forma1ListActivity extends AppCompatActivity {
             return;
         }
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        try {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            Log.d(LOG_TAG, "GoogleSignInClient initialized successfully");
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Error initializing GoogleSignInClient: " + e.getMessage(), e);
+        }
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Driver> driverList = new ArrayList<>();
-        driverList.add(new Driver("Lando Norris", "McLaren", "United Kingdom", "norris.png",
-                29, 1069, 131, 0, "1 (x5)", "1", "13/11/1999", "Bristol, England"));
-        driverList.add(new Driver("Max Verstappen", "Red Bull", "Netherlands", "verstappen.png",
-                114, 3084, 212, 4, "1 (x64)", "1", "30/09/1997", "Hasselt, Belgium"));
-        driverList.add(new Driver("Oscar Piastri", "McLaren", "Australia", "piastri.png",
-                12, 759, 131, 0, "1 (x3)", "1", "06/04/2001", "Melbourne, Australia"));
-        driverList.add(new Driver("George Russell", "Mercedes", "United Kingdom", "russell.png",
-                17, 497, 111, 0, "1 (x1)", "1", "15/02/1998", "King's Lynn, England"));
-        driverList.add(new Driver("Kimi Antonelli", "Mercedes", "Italy", "antonelli.png",
-                0, 30, 3, 0, "4 (x1)", "6", "25/08/2006", "Bologna, Italy"));
-        driverList.add(new Driver("Charles Leclerc", "Ferrari", "Monaco", "leclerc.png",
-                43, 1450, 150, 0, "1 (x8)", "1", "16/10/1997", "Monte Carlo, Monaco"));
-        driverList.add(new Driver("Alexander Albon", "Williams", "Thailand", "albon.png",
-                2, 258, 107, 0, "3 (x2)", "4", "23/03/1996", "London, England"));
-        driverList.add(new Driver("Lewis Hamilton", "Ferrari", "United Kingdom", "hamilton.png",
-                202, 4877, 359, 7, "1 (x105)", "1", "07/01/1985", "Stevenage, England"));
-        driverList.add(new Driver("Esteban Ocon", "Haas", "France", "ocon.png",
-                4, 455, 159, 0, "1 (x1)", "3", "17/09/1996", "Évreux, Normandy"));
-        driverList.add(new Driver("Lance Stroll", "Aston Martin", "Canada", "stroll.png",
-                3, 302, 169, 0, "3 (x3)", "1", "29/10/1998", "Montreal, Canada"));
-        driverList.add(new Driver("Nico Hulkenberg", "Kick Sauber", "Germany", "hulkenberg.png",
-                0, 577, 230, 0, "4 (x3)", "1", "19/08/1987", "Emmerich am Rhein, Germany"));
-        driverList.add(new Driver("Oliver Bearman", "Haas", "United Kingdom", "bearman.png",
-                12, 6, 2, 0, "7 (x1)", "10", "08/05/2005", "Chelmsford, England"));
-        driverList.add(new Driver("Isack Hadjar", "Racing Bulls", "France", "hadjar.png",
-                0, 4, 3, 0, "8 (x1)", "7", "28/09/2004", "Paris, France"));
-        driverList.add(new Driver("Yuki Tsunoda", "Red Bull Racing", "Japan", "tsunoda.png",
-                0, 94, 90, 0, "4 (x1)", "3", "11/05/2000", "Sagamihara, Japan"));
-        driverList.add(new Driver("Carlos Sainz", "Williams", "Spain", "sainz.png",
-                27, 1273, 209, 0, "1 (x4)", "1", "01/09/1994", "Madrid, Spain"));
-        driverList.add(new Driver("Pierre Gasly", "Alpine", "France", "gasly.png",
-                5, 436, 156, 0, "1 (x1)", "2", "07/02/1996", "Rouen, France"));
-        driverList.add(new Driver("Fernando Alonso", "Aston Martin", "Spain", "alonso.png",
-                106, 2337, 406, 2, "1 (x32)", "1", "29/07/1981", "Oviedo, Spain"));
-        driverList.add(new Driver("Liam Lawson", "Racing Bulls", "New Zealand", "lawson.png",
-                0, 6, 14, 0, "9 (x3)", "5", "11/02/2002", "Hastings, New Zealand"));
-        driverList.add(new Driver("Jack Doohan", "Alpine", "Australia", "doohan.png",
-                0, 0, 4, 0, "13 (x1)", "14", "20/01/2003", "Gold Coast, Australia"));
-        driverList.add(new Driver("Gabriel Bortoleto", "Kick Sauber", "Brazil", "bortoleto.png",
-                0, 0, 3, 0, "14 (x1)", "15", "14/10/2004", "São Paulo, Brazil"));
-
-        adapter = new DriverAdapter(driverList);
-        recyclerView.setAdapter(adapter);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        loadDriversFromFirestore();
 
         Button profileButton = findViewById(R.id.profileButton);
         Button logoutButton = findViewById(R.id.logoutButton);
@@ -141,5 +121,97 @@ public class Forma1ListActivity extends AppCompatActivity {
                 finish();
             });
         });
+
+        // Animáció: Feljön és eltűnik a toolbar logó
+        ImageView toolbarLogo = findViewById(R.id.toolbarLogo);
+        if (toolbarLogo != null) {
+            TranslateAnimation translateAnimation = new TranslateAnimation(
+                    Animation.RELATIVE_TO_SELF, 0f,
+                    Animation.RELATIVE_TO_SELF, 0f,
+                    Animation.RELATIVE_TO_SELF, 1f,
+                    Animation.RELATIVE_TO_SELF, 0f
+            );
+            translateAnimation.setDuration(1000);
+
+            AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+            alphaAnimation.setDuration(1000);
+            alphaAnimation.setStartOffset(1000);
+
+            AnimationSet animationSet = new AnimationSet(true);
+            animationSet.addAnimation(translateAnimation);
+            animationSet.addAnimation(alphaAnimation);
+
+            animationSet.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    toolbarLogo.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
+
+            toolbarLogo.startAnimation(animationSet);
+        } else {
+            Log.w(LOG_TAG, "toolbarLogo ImageView not found in layout, skipping animation");
+        }
+
+        // AlarmManager beállítása
+        setRaceReminder();
+    }
+
+    private void loadDriversFromFirestore() {
+        db.collection("drivers")
+                .orderBy("points", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Driver> driverList = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        driverList.add(new Driver(
+                                document.getString("name"),
+                                document.getString("team"),
+                                document.getString("nationality"),
+                                document.getString("image"),
+                                document.getLong("wins").intValue(),
+                                document.getLong("points").intValue(),
+                                document.getLong("races").intValue(),
+                                document.getLong("podiums").intValue(),
+                                document.getString("bestFinish"),
+                                document.getString("currentPosition"),
+                                document.getString("birthDate"),
+                                document.getString("birthPlace")
+                        ));
+                    }
+                    adapter = new DriverAdapter(driverList);
+                    recyclerView.setAdapter(adapter);
+                    progressBar.setVisibility(View.GONE);
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(LOG_TAG, "Error loading drivers", e);
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(this, "Hiba a versenyzők betöltése során", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void setRaceReminder() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(this, RaceReminderReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        Log.d(LOG_TAG, "Race reminder set for daily at 8:00 AM");
     }
 }
