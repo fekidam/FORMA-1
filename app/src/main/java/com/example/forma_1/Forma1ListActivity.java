@@ -122,7 +122,6 @@ public class Forma1ListActivity extends AppCompatActivity {
             });
         });
 
-        // Animáció: Feljön és eltűnik a toolbar logó
         ImageView toolbarLogo = findViewById(R.id.toolbarLogo);
         if (toolbarLogo != null) {
             TranslateAnimation translateAnimation = new TranslateAnimation(
@@ -159,7 +158,6 @@ public class Forma1ListActivity extends AppCompatActivity {
             Log.w(LOG_TAG, "toolbarLogo ImageView not found in layout, skipping animation");
         }
 
-        // AlarmManager beállítása
         setRaceReminder();
     }
 

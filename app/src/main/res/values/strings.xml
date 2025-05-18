@@ -63,6 +63,8 @@
     <string name="mentes">Mentés</string>
     <string name="delete_account">Fiók Törlése</string>
     <string name="kamera">Kamera</string>
+    <string name="profilkep">Profilkép</string>
+    <string name="profilkep_leiras">Profilkép</string>
     <string-array name="phone_modes">
         <item>Otthoni</item>
         <item>Munkahelyi</item>

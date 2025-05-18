@@ -29,6 +29,8 @@
   - Telefonszám
   - Cím
   - Fióktípus (pl. "Szurkoló", "Blogger", stb.)
+- Kamerával lehetőségük van profilképet beállítani
+- Fiók törlés
 
 ### 🚪 Kijelentkezés
 - A felhasználó egy gombnyomással kijelentkezhet

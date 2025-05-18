@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_large">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/toolbarLogo"
+                android:layout_width="@dimen/toolbar_logo_size"
+                android:layout_height="@dimen/toolbar_logo_size"
+                android:layout_gravity="center"
+                android:src="@drawable/f1"
+                android:contentDescription="@string/app_name"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_large">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/padding_small">
+
+                <EditText
+                    android:id="@+id/editTextUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/edit_text_min_height"
+                    android:hint="@string/username"
+                    android:inputType="textPersonName"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:textColorHint="#AAAAAA"
+                    android:paddingHorizontal="@dimen/padding_small"
+                    android:paddingVertical="@dimen/edit_text_padding_vertical" />
+
+                <EditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/edit_text_min_height"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:textColorHint="#AAAAAA"
+                    android:paddingHorizontal="@dimen/padding_small"
+                    android:paddingVertical="@dimen/edit_text_padding_vertical"
+                    android:layout_marginTop="@dimen/margin_medium" />
+
+                <EditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/edit_text_min_height"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:textColorHint="#AAAAAA"
+                    android:paddingHorizontal="@dimen/padding_small"
+                    android:paddingVertical="@dimen/edit_text_padding_vertical"
+                    android:layout_marginTop="@dimen/margin_medium" />
+
+                <EditText
+                    android:id="@+id/editTextPasswordAgain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/edit_text_min_height"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:textColorHint="#AAAAAA"
+                    android:paddingHorizontal="@dimen/padding_small"
+                    android:paddingVertical="@dimen/edit_text_padding_vertical"
+                    android:layout_marginTop="@dimen/margin_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/padding_small">
+
+                <EditText
+                    android:id="@+id/editTextPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/edit_text_min_height"
+                    android:hint="@string/phone_number"
+                    android:inputType="phone"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:textColorHint="#AAAAAA"
+                    android:paddingHorizontal="@dimen/padding_small"
+                    android:paddingVertical="@dimen/edit_text_padding_vertical" />
+
+                <Spinner
+                    android:id="@+id/phoneSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/edit_text_min_height"
+                    android:paddingHorizontal="@dimen/padding_small"
+                    android:paddingVertical="@dimen/edit_text_padding_vertical"
+                    android:layout_marginTop="@dimen/margin_medium" />
+
+                <EditText
+                    android:id="@+id/addressEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/edit_text_min_height"
+                    android:hint="@string/address"
+                    android:inputType="textMultiLine"
+                    android:maxLines="3"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/white"
+                    android:textColorHint="#AAAAAA"
+                    android:paddingHorizontal="@dimen/padding_small"
+                    android:paddingVertical="@dimen/edit_text_padding_vertical"
+                    android:layout_marginTop="@dimen/margin_medium" />
+
+                <TextView
+                    android:id="@+id/accountTypeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fiok_tipusa"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    android:layout_marginTop="@dimen/margin_medium" />
+
+                <LinearLayout
+                    android:id="@+id/accountTypeContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_small">
+
+                    <Button
+                        android:id="@+id/fanButton"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_weight="1"
+                        android:text="@string/fan"
+                        android:textColor="@color/black"
+                        android:backgroundTint="@color/light_gray"
+                        android:layout_marginEnd="@dimen/margin_small" />
+
+                    <Button
+                        android:id="@+id/bloggerButton"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_weight="1"
+                        android:text="@string/blogger"
+                        android:textColor="@color/black"
+                        android:backgroundTint="@color/light_gray"
+                        android:layout_marginStart="@dimen/margin_small" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/registerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:text="@string/register"
+                    android:onClick="register"
+                    android:backgroundTint="@color/accent"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_large" />
+
+                <Button
+                    android:id="@+id/cancelButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:text="@string/cancel"
+                    android:onClick="cancel"
+                    android:backgroundTint="@color/light_gray"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/margin_medium" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

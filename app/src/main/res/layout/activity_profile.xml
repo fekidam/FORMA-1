@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/padding_medium">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -20,6 +20,25 @@
             android:background="@color/primary"
             app:title="Profil"
             app:titleTextColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="@dimen/profile_image_size"
+            android:layout_height="@dimen/profile_image_size"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/profilkep_leiras"
+            android:layout_marginTop="@dimen/margin_large" />
+
+        <Button
+            android:id="@+id/cameraButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/kamera"
+            android:backgroundTint="@color/accent"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/margin_small" />
 
         <LinearLayout
             android:id="@+id/displayLayout"
@@ -34,9 +53,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/nev"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <TextView
                 android:id="@+id/nameText"
@@ -44,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/nincs_nev_megadva"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp" />
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/emailLabel"
@@ -53,9 +72,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/email"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <TextView
                 android:id="@+id/emailText"
@@ -63,8 +82,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/example_email_com"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp" />
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/phoneLabel"
@@ -72,9 +91,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/phone_number"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <TextView
                 android:id="@+id/phoneText"
@@ -82,8 +101,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/nincs_telefonszam"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp" />
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/addressLabel"
@@ -91,9 +110,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/address"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <TextView
                 android:id="@+id/addressText"
@@ -101,8 +120,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/nincs_cim"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp" />
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/accountTypeLabel"
@@ -110,9 +129,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fiok_tipusa"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <TextView
                 android:id="@+id/accountTypeText"
@@ -120,8 +139,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/nincs_fioktipus"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp" />
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/registrationDateLabel"
@@ -129,9 +148,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/regisztracio_datuma"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <TextView
                 android:id="@+id/registrationDateText"
@@ -139,8 +158,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/_2025_04_10"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp" />
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginTop="@dimen/margin_small" />
         </LinearLayout>
 
         <LinearLayout
@@ -156,9 +175,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/nev"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <EditText
                 android:id="@+id/nameEditText"
@@ -169,8 +188,8 @@
                 android:backgroundTint="@color/white"
                 android:textColor="@color/white"
                 android:textColorHint="#AAAAAA"
-                android:padding="12dp"
-                android:layout_marginTop="8dp" />
+                android:padding="@dimen/padding_small"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/emailLabelEdit"
@@ -178,9 +197,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/email"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <EditText
                 android:id="@+id/emailEditText"
@@ -191,8 +210,8 @@
                 android:backgroundTint="@color/white"
                 android:textColor="@color/white"
                 android:textColorHint="#AAAAAA"
-                android:padding="12dp"
-                android:layout_marginTop="8dp" />
+                android:padding="@dimen/padding_small"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/phoneLabelEdit"
@@ -200,9 +219,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/phone_number"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <EditText
                 android:id="@+id/phoneEditText"
@@ -213,8 +232,8 @@
                 android:backgroundTint="@color/white"
                 android:textColor="@color/white"
                 android:textColorHint="#AAAAAA"
-                android:padding="12dp"
-                android:layout_marginTop="8dp" />
+                android:padding="@dimen/padding_small"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/addressLabelEdit"
@@ -222,9 +241,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/address"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <EditText
                 android:id="@+id/addressEditText"
@@ -236,8 +255,8 @@
                 android:backgroundTint="@color/white"
                 android:textColor="@color/white"
                 android:textColorHint="#AAAAAA"
-                android:padding="12dp"
-                android:layout_marginTop="8dp" />
+                android:padding="@dimen/padding_small"
+                android:layout_marginTop="@dimen/margin_small" />
 
             <TextView
                 android:id="@+id/accountTypeLabelEdit"
@@ -245,16 +264,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fiok_tipusa"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="@dimen/margin_large" />
 
             <Spinner
                 android:id="@+id/accountTypeSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:popupBackground="@color/primary"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="@dimen/margin_small" />
         </LinearLayout>
 
         <TextView
@@ -263,16 +282,16 @@
             android:layout_height="wrap_content"
             android:text="@string/kedvenc_csapat"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="@dimen/margin_large" />
 
         <Spinner
             android:id="@+id/favoriteTeamSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:popupBackground="@color/primary"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="@dimen/margin_small" />
 
         <LinearLayout
             android:id="@+id/displayButtonsLayout"
@@ -280,7 +299,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:visibility="visible">
 
             <Button
@@ -290,7 +309,7 @@
                 android:text="@string/szerkesztes"
                 android:backgroundTint="@color/accent"
                 android:textColor="@color/white"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="@dimen/margin_medium" />
 
             <Button
                 android:id="@+id/deleteButton"
@@ -299,7 +318,7 @@
                 android:text="@string/delete_account"
                 android:backgroundTint="@color/red"
                 android:textColor="@color/white"
-                android:layout_marginBottom="12dp" />
+                android:layout_marginBottom="@dimen/margin_medium" />
 
             <Button
                 android:id="@+id/backButton"
@@ -316,7 +335,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:visibility="gone">
 
             <Button
@@ -327,7 +346,7 @@
                 android:text="@string/mentes"
                 android:backgroundTint="@color/accent"
                 android:textColor="@color/white"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="@dimen/margin_small" />
 
             <Button
                 android:id="@+id/cancelButton"
@@ -337,7 +356,7 @@
                 android:text="@string/cancel"
                 android:backgroundTint="@color/light_gray"
                 android:textColor="@color/black"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="@dimen/margin_small" />
         </LinearLayout>
 
     </LinearLayout>

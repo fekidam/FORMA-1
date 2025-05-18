@@ -25,20 +25,20 @@
         app:layout_constraintTop_toTopOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        app:layout_constraintEnd_toStartOf="@id/toolbarTitle" />
+        android:layout_marginStart="@dimen/margin_small" />
 
     <TextView
         android:id="@+id/toolbarTitle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
-        android:gravity="center"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="@id/toolbar"
         app:layout_constraintStart_toEndOf="@id/toolbarLogo"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar" />
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        android:layout_marginStart="@dimen/margin_small" />
 
     <TextView
         android:id="@+id/welcomeText"
@@ -57,11 +57,11 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="@dimen/padding_small"
+        android:padding="@dimen/padding_medium"
         app:layout_constraintTop_toBottomOf="@id/welcomeText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/progressBar" />
+        app:layout_constraintBottom_toTopOf="@id/buttonContainer" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="@dimen/padding_medium"
+        android:padding="@dimen/padding_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -92,7 +92,7 @@
             android:text="@string/profile"
             android:backgroundTint="@color/accent"
             android:textColor="@color/white"
-            android:layout_marginEnd="@dimen/margin_small" />
+            android:layout_marginEnd="@dimen/margin_medium" />
 
         <Button
             android:id="@+id/logoutButton"
@@ -101,7 +101,8 @@
             android:layout_weight="1"
             android:text="@string/sign_out"
             android:backgroundTint="@color/light_gray"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/margin_medium" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

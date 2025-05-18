@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:padding="@dimen/padding_large">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -22,8 +22,8 @@
 
             <ImageView
                 android:id="@+id/toolbarLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/toolbar_logo_size"
+                android:layout_height="@dimen/toolbar_logo_size"
                 android:layout_gravity="center"
                 android:src="@drawable/f1"
                 android:contentDescription="@string/app_name"/>
@@ -33,101 +33,116 @@
             android:id="@+id/editTextUserName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/edit_text_min_height"
             android:hint="@string/username"
             android:inputType="textPersonName"
             android:backgroundTint="@color/white"
             android:textColor="@color/white"
             android:textColorHint="#AAAAAA"
-            android:padding="12dp"
+            android:paddingHorizontal="@dimen/padding_small"
+            android:paddingVertical="@dimen/edit_text_padding_vertical"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="@dimen/margin_large"/>
 
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/edit_text_min_height"
             android:hint="@string/email_address"
             android:inputType="textEmailAddress"
             android:backgroundTint="@color/white"
             android:textColor="@color/white"
             android:textColorHint="#AAAAAA"
-            android:padding="12dp"
+            android:paddingHorizontal="@dimen/padding_small"
+            android:paddingVertical="@dimen/edit_text_padding_vertical"
             app:layout_constraintTop_toBottomOf="@id/editTextUserName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="@dimen/margin_medium"/>
 
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/edit_text_min_height"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:backgroundTint="@color/white"
             android:textColor="@color/white"
             android:textColorHint="#AAAAAA"
-            android:padding="12dp"
+            android:paddingHorizontal="@dimen/padding_small"
+            android:paddingVertical="@dimen/edit_text_padding_vertical"
             app:layout_constraintTop_toBottomOf="@id/editTextEmail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="@dimen/margin_medium"/>
 
         <EditText
             android:id="@+id/editTextPasswordAgain"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/edit_text_min_height"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
             android:backgroundTint="@color/white"
             android:textColor="@color/white"
             android:textColorHint="#AAAAAA"
-            android:padding="12dp"
+            android:paddingHorizontal="@dimen/padding_small"
+            android:paddingVertical="@dimen/edit_text_padding_vertical"
             app:layout_constraintTop_toBottomOf="@id/editTextPassword"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="@dimen/margin_medium"/>
 
         <EditText
             android:id="@+id/editTextPhone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/edit_text_min_height"
             android:hint="@string/phone_number"
             android:inputType="phone"
             android:backgroundTint="@color/white"
             android:textColor="@color/white"
             android:textColorHint="#AAAAAA"
-            android:padding="12dp"
+            android:paddingHorizontal="@dimen/padding_small"
+            android:paddingVertical="@dimen/edit_text_padding_vertical"
             app:layout_constraintTop_toBottomOf="@id/editTextPasswordAgain"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="@dimen/margin_medium"/>
 
         <Spinner
             android:id="@+id/phoneSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/edit_text_min_height"
+            android:paddingHorizontal="@dimen/padding_small"
+            android:paddingVertical="@dimen/edit_text_padding_vertical"
             app:layout_constraintTop_toBottomOf="@id/editTextPhone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="@dimen/margin_medium"/>
 
         <EditText
             android:id="@+id/addressEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minHeight="@dimen/edit_text_min_height"
             android:hint="@string/address"
             android:inputType="textMultiLine"
             android:maxLines="3"
             android:backgroundTint="@color/white"
             android:textColor="@color/white"
             android:textColorHint="#AAAAAA"
-            android:padding="12dp"
+            android:paddingHorizontal="@dimen/padding_small"
+            android:paddingVertical="@dimen/edit_text_padding_vertical"
             app:layout_constraintTop_toBottomOf="@id/phoneSpinner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="@dimen/margin_medium"/>
 
         <TextView
             android:id="@+id/accountTypeLabel"
@@ -135,10 +150,10 @@
             android:layout_height="wrap_content"
             android:text="@string/fiok_tipusa"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_medium"
             app:layout_constraintTop_toBottomOf="@id/addressEditText"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="@dimen/margin_medium"/>
 
         <LinearLayout
             android:id="@+id/accountTypeContainer"
@@ -149,35 +164,33 @@
             app:layout_constraintTop_toBottomOf="@id/accountTypeLabel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="@dimen/margin_small">
 
             <Button
                 android:id="@+id/fanButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:text="@string/fan"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/light_gray"
-                android:layout_marginEnd="8dp"
-                android:padding="8dp"/>
+                android:layout_marginEnd="@dimen/margin_small"/>
 
             <Button
                 android:id="@+id/bloggerButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:text="@string/blogger"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/light_gray"
-                android:layout_marginStart="8dp"
-                android:padding="8dp"/>
+                android:layout_marginStart="@dimen/margin_small"/>
         </LinearLayout>
 
         <Button
             android:id="@+id/registerButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:text="@string/register"
             android:onClick="register"
             android:backgroundTint="@color/accent"
@@ -185,12 +198,12 @@
             app:layout_constraintTop_toBottomOf="@id/accountTypeContainer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="@dimen/margin_large"/>
 
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:text="@string/cancel"
             android:onClick="cancel"
             android:backgroundTint="@color/light_gray"
@@ -198,7 +211,6 @@
             app:layout_constraintTop_toBottomOf="@id/registerButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="12dp"/>
-
+            android:layout_marginTop="@dimen/margin_medium"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

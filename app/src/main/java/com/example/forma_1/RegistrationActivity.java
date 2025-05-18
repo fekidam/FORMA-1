@@ -320,6 +320,6 @@ public class RegistrationActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        // TODO
+        //TODO
     }
 }

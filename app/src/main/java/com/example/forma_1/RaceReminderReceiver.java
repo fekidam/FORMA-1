@@ -22,26 +22,21 @@ public class RaceReminderReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // Create the notification channel (required for API 26+)
         createNotificationChannel(context);
 
-        // Check for POST_NOTIFICATIONS permission (required for API 33+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                // Permission not granted, cannot post notification
                 Toast.makeText(context, "Értesítési jogosultság hiányzik!", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
 
-        // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Emlékeztető")
                 .setContentText("Ma van a következő Forma-1 futam! Készülj fel!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        // Post the notification with SecurityException handling
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         try {
             notificationManager.notify(NOTIFICATION_ID, builder.build());
